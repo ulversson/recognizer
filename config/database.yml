@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: recog
+  pool: 5
+  username: recog 
+  password: recog
