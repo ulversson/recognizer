@@ -10,17 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_180322) do
+ActiveRecord::Schema.define(version: 2019_07_17_183337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "pipeline_items", force: :cascade do |t|
+    t.string "name"
+    t.string "arguments"
+    t.string "path"
+    t.string "command"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "code"
+    t.text "result"
+  end
+
   create_table "processing_pipeline_items", force: :cascade do |t|
     t.integer "processing_pipeline_id"
     t.integer "order"
-    t.string "command"
-    t.string "arguments"
-    t.string "name"
+    t.integer "pipeline_item_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
