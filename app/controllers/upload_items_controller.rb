@@ -2,41 +2,41 @@ class UploadItemsController < ApplicationController
   before_action :set_item, only: [:show, :update, :destroy]
   
   def index
-    @items = UploadItem.all
+    @uploaded_items = UploadedItem.all
   end
 
   def show
   end
 
   def create
-    @item = UploadItem.new(item_params)
+    @uploaded_item = UploadedItem.new(item_params)
 
-    if @item.save
-      render json: @item, status: :created, location: @item
+    if @uploaded_item.save
+      render json: @uploaded_item, status: :created, location: root_url
     else
-      render json: @item.errors, status: :unprocessable_entity
+      render json: @uploaded_item.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    if @item.update(item_params)
-      render json: @item, status: :ok, location: @item
+    if @uploaded_item.update(item_params)
+      render json: @uploaded_item, status: :ok, location: @uploaded_item
     else
-      render json: @item.errors, status: :unprocessable_entity
+      render json: @uploaded_item.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @item.destroy
+    @uploaded_item.destroy
   end
 
   private
   
   def set_item
-    @item = UploadItem.find(params[:id])
+    @uploaded_item = UploadedItem.find(params[:id])
   end
 
   def item_params
-    params.require(:item).permit(:name, :description, :file)
+    params.permit(:name, :description, :file)
   end
 end
