@@ -7,12 +7,8 @@ import os
   
 PDF_file = sys.argv[1]
 
-pages = convert_from_path(PDF_file, 500) 
-  
-# Counter to store images of each page of PDF to image 
-image_counter = 1
-  
-# Iterate through all the pages stored above 
+pages = convert_from_path(PDF_file, 500)   
+image_counter = 1  
 for page in pages: 
     filename = "page_"+str(image_counter)+".jpg"
     page.save(filename, 'JPEG') 

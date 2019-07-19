@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_183337) do
+ActiveRecord::Schema.define(version: 2019_07_18_175029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,9 +26,16 @@ ActiveRecord::Schema.define(version: 2019_07_17_183337) do
     t.text "result"
   end
 
+  create_table "processing_pipeline_item_files", force: :cascade do |t|
+    t.string "input_file_path"
+    t.string "output_file_path"
+    t.string "output_directory"
+    t.integer "processing_pipeline_item_id"
+  end
+
   create_table "processing_pipeline_items", force: :cascade do |t|
     t.integer "processing_pipeline_id"
-    t.integer "order"
+    t.integer "position"
     t.integer "pipeline_item_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -38,6 +45,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_183337) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "code"
   end
 
   create_table "seed_migration_data_migrations", id: :serial, force: :cascade do |t|

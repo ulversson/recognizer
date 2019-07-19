@@ -15,3 +15,4 @@ imgMorph = cv2.erode(imgContrast, kernel, iterations = 1)
 
 # write
 cv2.imwrite(sys.argv[2], imgMorph)
+print(sys.argv[2])
