@@ -71,12 +71,13 @@ export default {
           text: 'Please select file to upload!'
         })
       } else {
+        const router = this.$router
         this.showProgress = true
         let formData = new FormData();
         let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')   
         formData.append('file', this.uploadFile);
         formData.append('csrfToken', csrfToken)
-        axios.post('/upload_items',
+        axios.post('/uploaded_items',
           formData,
           {
             headers: {
@@ -89,6 +90,7 @@ export default {
           }
         ).then(res => {
           this.resetUpload()
+          router.push("/uploads")
           this.$swal({
             type: 'success',
             title: 'Done',

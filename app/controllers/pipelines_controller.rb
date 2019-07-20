@@ -8,10 +8,12 @@ class PipelinesController < ApplicationController
   end
 
   def show
-    processing_pipeline = ProcessingPipeline.find(params[:id])
-    @data = processing_pipeline.processing_pipeline_items
-                                .includes(:pipeline_item)
-                                .order(:position)
+    processing_pipeline = ProcessingPipeline.where(id: params[:id])
+    serialized = PipelineSerializer.new(processing_pipeline).serializable_hash
+    render json: {
+      data: serialized[:data][0][:attributes][:items],
+      id: serialized[:data][0][:id]
+    }
   end  
 
 end    

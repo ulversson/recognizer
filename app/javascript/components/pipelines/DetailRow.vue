@@ -2,9 +2,6 @@
 <template>
   <div class="row">
     <div class="col-2">
-      <button class="btn btn-secondary button" @click="sort">
-        Save order
-      </button>
     </div>
 
     <div class="col-6">
@@ -15,21 +12,15 @@
         v-model="list"
         v-bind="dragOptions"
         @start="isDragging = true"
-        @end="isDragging = false"
-      >
+        @end="isDragging = false">
         <transition-group type="transition" name="flip-list">
           <li
             class="list-group-item"
             v-for="element in list"
-            :key="element.order"
-          >
-            <i
-              :class="
-                element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'
-              "
+            :key="element.order">
+            <i :class=" element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin' "
               @click="element.fixed = !element.fixed"
-              aria-hidden="true"
-            ></i>
+              aria-hidden="true"></i>
             {{ element.name }}
           </li>
         </transition-group>
@@ -43,16 +34,6 @@
 <script>
 import draggable from "vuedraggable"
 import axios from 'axios'
-const message = [
-  "vue.draggable",
-  "draggable",
-  "component",
-  "for",
-  "vue.js 2.0",
-  "based",
-  "on",
-  "Sortablejs"
-];
 
 export default {
   name: "transition-example",
@@ -63,17 +44,15 @@ export default {
   },
   data() {
     return {
-      list: message.map((name, index) => {
-        return { name, order: index + 1 };
-      })
+      items: []
     };
   },
-  methods: {
-    sort() {
-      this.list = this.list.sort((a, b) => a.order - b.order);
-    }
-  },
   computed: {
+    list() {
+      return this.items.map((item, index) => {
+        return {name: item.name, order: item.position}
+      })
+    },
     dragOptions() {
       return {
         animation: 0,
@@ -93,8 +72,8 @@ export default {
     }
   }, 
   mounted() {
-    axios.get(`pipelines/${this.rowData.id}`).then((response) => {
-      console.log(response);
+    axios.get(`pipelines/${this.rowData.id}.json`).then((response) => {
+      this.items = [...this.items, ...response.data.data]
     }).catch(function (error) {
       console.log(error);
     }).finally(function () {

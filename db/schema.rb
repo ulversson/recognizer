@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_19_184154) do
+ActiveRecord::Schema.define(version: 2019_07_20_154751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,9 +76,8 @@ ActiveRecord::Schema.define(version: 2019_07_19_184154) do
   end
 
   create_table "uploaded_items", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
     t.integer "medico_legal_case_id"
+    t.string "file_content_type"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

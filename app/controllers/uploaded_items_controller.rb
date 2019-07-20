@@ -1,8 +1,11 @@
-class UploadItemsController < ApplicationController
+class UploadedItemsController < ApplicationController
   before_action :set_item, only: [:show, :update, :destroy]
   
   def index
-    @uploaded_items = UploadedItem.all
+    @uploaded_items = UploadedItemSerializer.new(UploadedItem.all.order("id desc"), {is_collection: true})
+    render json: {
+      data: @uploaded_items.serializable_hash[:data].map {|i| i[:attributes]}
+    }
   end
 
   def show
@@ -12,7 +15,7 @@ class UploadItemsController < ApplicationController
     @uploaded_item = UploadedItem.new(item_params)
 
     if @uploaded_item.save
-      render json: @uploaded_item, status: :created, location: root_url
+      render json: @uploaded_item, status: :created, location: "/"
     else
       render json: @uploaded_item.errors, status: :unprocessable_entity
     end

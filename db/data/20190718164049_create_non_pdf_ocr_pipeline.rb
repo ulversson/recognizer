@@ -8,22 +8,22 @@ class CreateNonPdfOcrPipeline < SeedMigration::Migration
     ProcessingPipelineItem.create!({
       processing_pipeline_id: pp.id,
       pipeline_item_id: pi.id,
-      order: 1
+      position: 1
     })
     ProcessingPipelineItem.create!({
       processing_pipeline_id: pp.id,
       pipeline_item_id: pi2.id,
-      order: 2
+      position: 2
     })
     ProcessingPipelineItem.create!({
       processing_pipeline_id: pp.id,
       pipeline_item_id: pi3.id,
-      order: 3
+      position: 3
     })
     ProcessingPipelineItem.create!({
       processing_pipeline_id: pp.id,
       pipeline_item_id: pi4.id,
-      order: 4
+      position: 4
     })
   end
 
