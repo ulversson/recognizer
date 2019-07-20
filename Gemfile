@@ -12,8 +12,9 @@ gem "bcrypt", "~> 3.1.7"
 gem "bootsnap"
 gem "seed_migration"
 gem "rmagick"
-# Use Active Storage variant
-# gem "image_processing", "~> 1.2"
+gem "rack-cors"
+gem "image_processing", "~> 1.2"
+
 group :development, :test do
   gem "pry", platforms: [:mri, :mingw, :x64_mingw]
 end

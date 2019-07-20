@@ -16,7 +16,7 @@
                 <label class="custom-file-label" for="inputGroupFile01">{{fileLabel}}</label>
               </div>
             </div>
-            <progress max="100" :value.prop="uploadPercentage" style="width: 100%" class="text-primary" v-if="uploadPercentage > 0"></progress>
+            <progress max="100" :value.prop="uploadPercentage" style="width: 100%" class="text-primary" v-if="showProgressBar"></progress>
             <br>
             <button @click="submitFile()" class="btn btn-success">Submit</button>
           </form>
@@ -40,7 +40,13 @@ export default {
       description: null,
       fileLabel: "Choose file",
       uploadFile: null,
-      uploadPercentage: 0
+      uploadPercentage: 0,
+      showProgress: false
+    }
+  },
+  computed: {
+    showProgressBar() {
+      return this.uploadPercentage > 0 && this.showProgress
     }
   },
   methods: {
@@ -57,28 +63,48 @@ export default {
       this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
     },
     submitFile(e){
-      e.preventDefault()
-      let formData = new FormData();
-      let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')   
-      formData.append('file', this.uploadFile);
-      formData.append('csrfToken', csrfToken)
-      axios.post('/upload_items',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'X-CSRF-Token' : csrfToken
-          },
-          onUploadProgress: function( progressEvent ) {
-            this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
-          }.bind(this)
-        }
-      ).then(res => {
-        console.log('SUCCESS!!');
-      })
-      .catch(function(){
-        console.log('FAILURE!!');
-      });
+      if (e !== undefined) e.preventDefault()
+      if (this.uploadFile === null) {
+        this.$swal({
+          type: 'error',
+          title: 'No file selected...',
+          text: 'Please select file to upload!'
+        })
+      } else {
+        this.showProgress = true
+        let formData = new FormData();
+        let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')   
+        formData.append('file', this.uploadFile);
+        formData.append('csrfToken', csrfToken)
+        axios.post('/upload_items',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'X-CSRF-Token' : csrfToken
+            },
+            onUploadProgress: function( progressEvent ) {
+              this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
+            }.bind(this)
+          }
+        ).then(res => {
+          this.resetUpload()
+          this.$swal({
+            type: 'success',
+            title: 'Done',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+      }
+    },
+    resetUpload() {
+      this.uploadFile = null
+      this.fileLabel = "Choose File"
+      this.showProgress = false
     }
   }
 }

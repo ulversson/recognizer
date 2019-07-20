@@ -10,28 +10,7 @@ export default class _class extends WeElement {
         {
           class: "col-lg-12"
         },
-        h(
-          "div",
-          {
-            class: "card position-relative"
-          },
-          h(
-            "div",
-            {
-              class: "card-header py-3"
-            },
-            h("h6", {
-              class: "m-0 font-weight-bold text-primary"
-            })
-          ),
-          h(
-            "div",
-            {
-              class: "card-body"
-            },
-            "Select menu action on the left"
-          )
-        )
+        h("router-view", null)
       )
     );
   }
