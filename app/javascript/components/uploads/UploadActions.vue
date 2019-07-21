@@ -2,11 +2,14 @@
   <div class="custom-actions">
     <a class="btn btn-xs btn-warning text-white" style="cursor: pointer" @click="itemAction('edit-item', rowData, rowIndex)"><i class="edit fas fa-edit"></i></a>
     <a class="btn btn-xs btn-primary text-white" style="cursor: pointer" @click="itemAction('process-item', rowData, rowIndex)"><i class="edit fas fa-cog"></i></a>
-    <a class="btn btn-xs btn-danger text-white" style="cursor: pointer" click="itemAction('delete-item', rowData, rowIndex)"><i class="delete fas fa-ban"></i></a>
+    <a class="btn btn-xs btn-danger text-white" style="cursor: pointer" @click="itemAction('delete-item', rowData, rowIndex)"><i class="delete fas fa-ban"></i></a>
   </div>	
 </template>
 
 <script>
+import axios from 'axios'
+import Api from '../../requests/api'
+
 export default {
   props: {
     rowData: {
@@ -26,18 +29,20 @@ export default {
         case "process-item":
           this.processItem(data, index)
         break;
-        case "process-item":
+        case "delete-item":
           this.deleteItem(data, index)
         break;
       }
     },
     editItem(data, index) {
-      
+      this.$parent.$parent.showModal = true
+      Api.requ
     },
     processItem(data, index) {
 
     },
     deleteItem(data, index) {
+      const component = this
       this.$swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -49,10 +54,15 @@ export default {
         })
         .then((result) => {
           if (result.value) {
-            this.$swal(
-              'Deleted!',
-              'Your file has been deleted.',
-              'success')
+            let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')  
+            let headers =  {
+              'X-CSRF-Token' : csrfToken
+            } 
+            axios.delete(`uploaded_items/${data.id}`, {headers: headers}).then((res) => {
+              component.$parent.refresh()
+              this.$swal(
+                'Deleted!', 'Your file has been deleted.', 'success')
+              })
           }
         })
     }

@@ -34,7 +34,7 @@
 <script>
 import draggable from "vuedraggable"
 import axios from 'axios'
-
+import Api from '../../requests/api'
 export default {
   name: "transition-example",
   display: "Transition",
@@ -72,7 +72,7 @@ export default {
     }
   }, 
   mounted() {
-    axios.get(`pipelines/${this.rowData.id}.json`).then((response) => {
+    Api.requestPipeline(this.rowData.id).then((response) => {
       this.items = [...this.items, ...response.data.data]
     }).catch(function (error) {
       console.log(error);

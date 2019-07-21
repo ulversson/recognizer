@@ -4925,7 +4925,7 @@ jquery.easing@^1.4.1:
   resolved "https://registry.yarnpkg.com/jquery.easing/-/jquery.easing-1.4.1.tgz#47982c5836bd758fd48494923c4a101ef6e93e3b"
   integrity sha1-R5gsWDa9dY/UhJSSPEoQHvbpPjs=
 
-jquery@3.4.1, jquery@>=1.7:
+jquery@3.4.1, jquery@>=1.7, jquery@^3.3.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -7921,6 +7921,11 @@ select-hose@^2.0.0:
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
   integrity sha1-Yl2GWPhlr0Psliv8N2o3NZpJlMo=
 
+select2@^4.0.7-rc.0:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.8.tgz#3773bec1e5b96620ed98ca5ded53c0da47e7753f"
+  integrity sha512-H/I2mq71oiEe51S74hdUv4QubH1EJNLEMnjfQucftLa8GiuT5+RKIHwlV/7I/YUqZg0wsYQM946eFG/ntRPF/Q==
+
 selfsigned@^1.10.4:
   version "1.10.4"
   resolved "https://registry.yarnpkg.com/selfsigned/-/selfsigned-1.10.4.tgz#cdd7eccfca4ed7635d47a08bf2d5d3074092e2cd"
@@ -9006,6 +9011,14 @@ uws@^9.148.0:
   version "9.148.0"
   resolved "https://registry.yarnpkg.com/uws/-/uws-9.148.0.tgz#56aff36cb95f7594573daff2a21105ec4b764664"
   integrity sha512-vWt+e8dOdwLM4neb1xIeZuQ7ZUN3l7n0qTKrOUtU1EZrV4BpmrSnsEL30d062/ocqRMGtLpwzVFsLKFgXomA9g==
+
+v-select2-component@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/v-select2-component/-/v-select2-component-0.3.8.tgz#4ad3fe434b769da3a8d9da87d36ac0dd2c926768"
+  integrity sha512-jSs5THVeSDgkHmavMq7ullOjz6wwdotXxERCKa3YDtZvpY5fVo3ZwCsVY3OuR3KZQcDwa/Ho74orQNnF6zDEgg==
+  dependencies:
+    jquery "^3.3.1"
+    select2 "^4.0.7-rc.0"
 
 v8-compile-cache@2.0.3:
   version "2.0.3"

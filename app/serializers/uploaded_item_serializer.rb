@@ -5,7 +5,7 @@ class UploadedItemSerializer
   extend ActionView::Helpers::TagHelper
 
   set_type :uploaded_item
-  attributes :id, :uploaded_at, :file_type
+  attributes :id, :uploaded_at, :file_type, :status
   
   attribute :filename do |object|
     if object.file.attached?

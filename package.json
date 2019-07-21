@@ -18,6 +18,7 @@
     "popper.js": "^1.15.0",
     "to-string-loader": "^1.1.5",
     "turbolinks": "^5.2.0",
+    "v-select2-component": "^0.3.8",
     "vue": "^2.6.10",
     "vue-draggable": "^2.0.2",
     "vue-events": "^3.1.0",
