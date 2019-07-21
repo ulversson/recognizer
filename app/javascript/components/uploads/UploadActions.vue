@@ -18,7 +18,12 @@ export default {
     },
     rowIndex: {
       type: Number
+    },
+    dropdownOptions: {
+      type: Array
     }
+  },
+  created() {
   },
   methods: {
     itemAction (action, data, index) {
@@ -36,7 +41,6 @@ export default {
     },
     editItem(data, index) {
       this.$parent.$parent.showModal = true
-      Api.requ
     },
     processItem(data, index) {
 

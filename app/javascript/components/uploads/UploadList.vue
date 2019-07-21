@@ -8,7 +8,11 @@
     pagination-path=""
     :css="css"
   ></vuetable>
-  <edit-upload :showModal="showModal" :rowData="rowData" ref="editModal"></edit-upload>
+  <edit-upload :showModal="showModal" 
+               :rowData="rowData" 
+               :dropdownOptions="dropdownOptions" 
+               ref="editModal">
+  </edit-upload>
   </div>
 </template>
 
@@ -17,6 +21,7 @@ import Vuetable from 'vuetable-2'
 import Vue from 'vue'
 import UploadActions from './UploadActions'
 import EditUpload from './EditUpload'
+import Api from '../../requests/api'
 
 Vue.component('upload-actions', UploadActions)
 Vue.component('edit-upload', EditUpload)
@@ -43,6 +48,7 @@ export default {
         }
       },
       showModal: false,
+      dropdownOptions: [],
       fields: [
         'id', 'filename', 
         { 
@@ -65,6 +71,17 @@ export default {
   },  
   components: {
     Vuetable
+  },
+  created() {
+    let opt = this.dropdownOptions
+    Api.pipelines().then(r => {
+      r.data.data.forEach(pipeline => {
+        opt.push({
+          id: pipeline.id,
+          text: pipeline.name
+        })
+      })
+    })
   },
   methods: {
     onCellClicked (data, field, event) {

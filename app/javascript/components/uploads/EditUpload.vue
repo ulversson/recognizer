@@ -16,7 +16,7 @@
               <label>Select pipeline to process this document.</label>
               <div class='wrapping-select2' style='width: 400px'>
                 <Select2 v-model="myValue" 
-                      :options="myOptions" 
+                      :options="dropdownOptions" 
                       :settings="this.settings" 
                       @change="myChangeEvent($event)" 
                       @select="mySelectEvent($event)"
@@ -26,7 +26,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="closeModal()">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-success" @click="saveAndProcess()">Save and process</button>
+              <button type="button" class="btn btn-primary" @click="save()">Save</button>
             </div>
           </div>
       </div>
@@ -55,10 +56,14 @@ export default {
     },
     rowIndex: {
       type: Number
+    },
+    dropdownOptions: {
+      type: Array,
+      default: []
     }
   },
   mounted() {
-    this.$set(this.settings, 'dropdownParent', this.$el.querySelector(".edit-dialog"))
+    //this.$set(this.settings, 'dropdownParent', this.$el.querySelector(".edit-dialog"))
   },
   data() {
     return {
@@ -81,7 +86,6 @@ export default {
     settings() {
       let component = this
       return {
-        dropdownParent: document.querySelector(".edit-dialog"),
         width: 400
       }
     }
