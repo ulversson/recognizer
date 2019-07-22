@@ -6,7 +6,7 @@
           <h6 class="m-0 font-weight-bold text-primary">Upload new documents</h6>
         </div>
         <div class="card-body">
-          <form id='app' @submit='submitFile' action='' method='post' novalidate='true'>
+          <form id='app' @submit='preventSubmitting' action='' method='post' novalidate='true'>
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -102,6 +102,9 @@ export default {
           console.log('FAILURE!!');
         });
       }
+    },
+    preventSubmitting(e) {
+      e.preventDefault()
     },
     resetUpload() {
       this.uploadFile = null

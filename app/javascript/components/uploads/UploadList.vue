@@ -11,6 +11,7 @@
   <edit-upload :showModal="showModal" 
                :rowData="rowData" 
                :dropdownOptions="dropdownOptions" 
+               :pipelineToSelect="pipelineToSelect"
                ref="editModal">
   </edit-upload>
   </div>
@@ -48,7 +49,9 @@ export default {
         }
       },
       showModal: false,
+      itemId: 0,
       dropdownOptions: [],
+      pipelineToSelect: 0,
       fields: [
         'id', 'filename', 
         { 
@@ -69,6 +72,16 @@ export default {
       ]
     }
   },  
+  watch: {
+    pipelineToSelect: function (newVal, oldValue) {
+      if (newVal > 0) {
+        //var list = this.$el.querySelectorAll(".select2 option")
+        //var selectedIndex = [...list].findIndex (option => option.pipeline_item_id === this.pipelineToSelect.toString())
+        //list[selectedIndex]
+        
+      } 
+    }
+  },
   components: {
     Vuetable
   },
@@ -78,9 +91,11 @@ export default {
       r.data.data.forEach(pipeline => {
         opt.push({
           id: pipeline.id,
-          text: pipeline.name
+          label: pipeline.name,
+          selected: pipeline.processing_pipeline_id === this.pipelineToSelect
         })
       })
+      console.log(opt)
     })
   },
   methods: {

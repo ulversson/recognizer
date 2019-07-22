@@ -14,13 +14,11 @@
             </div>
             <div class="modal-body">
               <label>Select pipeline to process this document.</label>
-              <div class='wrapping-select2' style='width: 400px'>
-                <Select2 v-model="myValue" 
-                      :options="dropdownOptions" 
-                      :settings="this.settings" 
-                      @change="myChangeEvent($event)" 
-                      @select="mySelectEvent($event)"
-                      style="width: 100%; min-width: 100%" />
+              <div class='wrapping-select' style='width: 400px'>
+                <v-select :options="dropdownOptions" 
+                  :value="selectedItem" 
+                  ref="select"
+                  @input="onSelectChange"></v-select>
               </div>  
 
             </div>
@@ -42,7 +40,7 @@ import Vue from 'vue'
 import Select2 from 'v-select2-component'
 import axios from 'axios'
 import Api from '../../requests/api'
-
+import Globals from '../../packs/globals'
 Vue.component('Select2', Select2)
 export default {
   props: {
@@ -60,27 +58,54 @@ export default {
     dropdownOptions: {
       type: Array,
       default: []
+    },
+    pipelineToSelect: {
+      type: Number,
+      default: 0
     }
   },
   mounted() {
-    //this.$set(this.settings, 'dropdownParent', this.$el.querySelector(".edit-dialog"))
+    this.onSelectChange(this.pipelineToSelect)
   },
   data() {
     return {
-      myValue: '',
-      myOptions: ['op1', 'op2', 'op3']
+      selectedValue: null
     }
   },
   methods: {
     closeModal() {
       this.$parent.showModal = false
     },
-       myChangeEvent(val){
-            console.log(val);
-        },
-        mySelectEvent({id, text}){
-            console.log({id, text})
-        }
+    onSelectChange(val){
+      if (val === null || val == undefined) {
+        this.$refs.select.value = null
+        this.selectedValue = val
+      } else {
+        this.selectedValue = val.id
+        this.$refs.select.value = val
+      }
+    },
+    removeBorder() {
+      Globals.css(document.querySelector("div.wrapping-select"), {'border': 'none'})
+    },
+    setRedBorder() {
+      Globals.css(document.querySelector("div.wrapping-select"), {'border': '1px solid red'})
+    },
+    save() {
+      let component = this
+      if (this.selectedValue === null || this.selectedValue === undefined) {
+        this.setRedBorder()
+      } else {
+        this.removeBorder()
+        Api.updateUploadedItems(component.$parent.itemId, this.selectedValue).then((r) => {
+          if (r.status === 200) {
+            component.$parent.showModal = false
+            window.location.reload(true)
+          }
+        }).catch(e => {
+        })
+      }
+    }
   },
   computed: {
     settings() {
@@ -88,6 +113,10 @@ export default {
       return {
         width: 400
       }
+    },
+    selectedItem() {
+      let found = this.dropdownOptions.find (option => option.id === this.pipelineToSelect)
+      return found
     }
   }
 }

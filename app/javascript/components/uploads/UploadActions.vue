@@ -23,8 +23,6 @@ export default {
       type: Array
     }
   },
-  created() {
-  },
   methods: {
     itemAction (action, data, index) {
       switch(action) {
@@ -41,6 +39,8 @@ export default {
     },
     editItem(data, index) {
       this.$parent.$parent.showModal = true
+      this.$parent.$parent.itemId = data.id
+      this.$parent.$parent.pipelineToSelect = data.processing_pipeline_id
     },
     processItem(data, index) {
 

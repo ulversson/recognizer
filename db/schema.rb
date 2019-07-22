@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_21_055045) do
+ActiveRecord::Schema.define(version: 2019_07_21_131120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2019_07_21_055045) do
   create_table "uploaded_items", force: :cascade do |t|
     t.integer "medico_legal_case_id"
     t.string "file_content_type"
-    t.string "status", default: "ready"
+    t.string "status", default: "pending", null: false
     t.integer "processing_pipeline_id"
   end
 

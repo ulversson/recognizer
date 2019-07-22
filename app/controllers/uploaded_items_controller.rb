@@ -13,7 +13,6 @@ class UploadedItemsController < ApplicationController
 
   def create
     @uploaded_item = UploadedItem.new(item_params)
-
     if @uploaded_item.save
       render json: @uploaded_item, status: :created, location: "/"
     else
@@ -22,8 +21,9 @@ class UploadedItemsController < ApplicationController
   end
 
   def update
-    if @uploaded_item.update(item_params)
-      render json: @uploaded_item, status: :ok, location: @uploaded_item
+    update_params = params.require(:uploaded_item).permit(:processing_pipeline_id, :status)
+    if @uploaded_item.update(update_params)
+      render json: { "success": true}
     else
       render json: @uploaded_item.errors, status: :unprocessable_entity
     end
@@ -40,6 +40,6 @@ class UploadedItemsController < ApplicationController
   end
 
   def item_params
-    params.permit(:name, :description, :file)
+    params.permit(:processing_pipeline_id, :status, :file)
   end
 end
