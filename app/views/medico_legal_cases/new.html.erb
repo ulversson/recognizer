@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-xl-8 col-lg-7">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Add New Case</h6>        
+        </div>
+        <div class="card-body">
+          <form action="/medico_legal_cases">
+            <%= text_field_tag "medico_legal_case[name]", "",
+                class: "form-control form-control-lg", 
+                placeholder: "Case Name" %>
+            <div class='form-group' style='margin-top: 30px'>
+
+              <%= select_tag('uploaded_files', options_for_select(@processed_files), multiple: true, class: "select2")%>
+            </div>
+          </form>
+          <button type="submit" id='save-case' class="btn btn-success">SAVE</button>
+        </div> 
+    </div>
+  </div>
+  <div class='col-xl-4 col-lg-5'>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Preview</h6>        
+      </div>    
+      <div class="card-body">
+        <h3>Captured dates</h3>
+        <div id='dates' style='font-size: 20px !important'></div>
+        <div id='slides'></div>
+        <%= render "photoswipe" %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(function(){
+  
+  window.items = []
+  initGallery(window.items, 0)
+  $("select.select2").multiSelect({
+    selectableHeader: "<div class='custom-header font-weight-bold p-2 bg-secondary text-white'>Processed files</div>",
+    selectionHeader: "<div class='custom-header font-weight-bold p-2 bg-secondary text-white'>New Case files</div>",
+    keepOrder: true,
+    afterSelect: function(value){
+      $.get(`/processing_results/${value}`).done(function(jsonResponse){
+        jsonResponse.files.forEach((file) => {
+          let index = jsonResponse.files.indexOf(file)
+          if (file.content_type.toString().match("image")) {
+           window.items.push(file) 
+           let link = '<img width="160" height="160" data-id="'+ jsonResponse.id + '" src="'+ file.src + '" onclick="openGallery(0)"/>'
+           $("div#slides").append(link)
+          }
+          if (file.content_type.toString().match("text")) {
+           let link = '<a href="'+ file.src +'.txt " data-id="'+ jsonResponse.id + '" src="'+ file.src  + '.txt">'+ file.filename.replace("png", "txt") + '</a>'
+           $("div#slides").append(link)
+          }
+        });
+        let dateHtml = $("div#dates").html();
+        jsonResponse.dates.sort(function(a, b) {
+          var dateA = new Date(a), dateB = new Date(b);
+          return dateA - dateB;
+        }).forEach((date) => {
+          dateHtml = dateHtml + '<p data-id="' + jsonResponse.id +'" class="badge badge-pill badge-secondary date">'+ moment(date).format("DD/MM/YYYY") + "</p>"
+        });
+        $("div#dates").html(dateHtml);
+      })
+    },
+    afterDeselect: function(values){
+      window.items = window.items.filter(i => i.id.toString() == values[0])
+      $("div#slides img[data-id='" + values[0] + "']").remove()
+      $("div#slides a[data-id='" + values[0] + "']").remove()
+      $("div#dates p[data-id='" + values[0] + "']").remove()
+
+      initGallery(window.items, 0)
+    }
+  });
+
+   $('button#save-case').off('click.save-case').on('click.save-case', function() {
+    var $this = $(this);
+    var loadingText = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    if ($(this).html() !== loadingText) {
+      $this.data('original-text', $(this).html());
+      $this.html(loadingText);
+    }
+    //$this.html($this.data('original-text'));
+    let caseName = $("input#medico_legal_case_name").val();
+    if (caseName === "") {
+      alert("Case name cannot be blank!")
+      $this.html($this.data('original-text'));
+    } else {
+      var postData = {
+        medico_legal_case: { name: caseName },
+        uploaded_files: $("select#uploaded_files").val()
+      }
+      $.post("/medico_legal_cases.js", postData).done(function(){
+        $this.html($this.data('original-text'));
+        window.location.href='#/cases'
+      })
+    }
+  });
+})
+function openGallery(index) {
+  window.gallery.options["index"] = index
+  window.gallery.init()
+}
+
+function initGallery(items, index ) {
+  window.pswpElement = document.querySelectorAll('.pswp')[0];
+  window.gallery = new PhotoSwipe(window.pswpElement, PhotoSwipeUI_Default, items, options);
+  var options = { index: 0}
+  //openGallery(index)
+}
+</script>

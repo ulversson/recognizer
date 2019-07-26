@@ -43,7 +43,20 @@ export default {
       this.$parent.$parent.pipelineToSelect = data.processing_pipeline_id
     },
     processItem(data, index) {
-
+      let component = this
+      this.$swal({
+        title: 'Are you sure you want to process this file',
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes'
+      })
+      .then((result) => {
+        if (result.value) {
+          Api.processUploadedItem(data.id).then(r =>{
+            window.location.reload(true)
+          })
+        }
+      })
     },
     deleteItem(data, index) {
       const component = this

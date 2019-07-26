@@ -75,9 +75,6 @@ export default {
   watch: {
     pipelineToSelect: function (newVal, oldValue) {
       if (newVal > 0) {
-        //var list = this.$el.querySelectorAll(".select2 option")
-        //var selectedIndex = [...list].findIndex (option => option.pipeline_item_id === this.pipelineToSelect.toString())
-        //list[selectedIndex]
         
       } 
     }

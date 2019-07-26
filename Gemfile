@@ -16,7 +16,7 @@ gem "rack-cors"
 gem "sidekiq"
 gem "image_processing", "~> 1.2"
 gem "font_awesome5_rails"
-
+gem "select2-rails"
 
 group :development, :test do
   gem "pry", platforms: [:mri, :mingw, :x64_mingw]

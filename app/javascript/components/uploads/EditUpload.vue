@@ -24,7 +24,6 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="closeModal()">Close</button>
-              <button type="button" class="btn btn-success" @click="saveAndProcess()">Save and process</button>
               <button type="button" class="btn btn-primary" @click="save()">Save</button>
             </div>
           </div>

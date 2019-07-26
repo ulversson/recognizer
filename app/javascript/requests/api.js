@@ -31,5 +31,16 @@ export default {
       console.log(error);
     }).finally(function () {
     })
+  },
+  processUploadedItem(uploadedItemId) {
+    return axios.post(`/processings?id=${uploadedItemId}`,{
+        id: uploadedItemId
+      }, {
+        headers: {'X-CSRF-Token' : csrfToken}
+      }).then((r) => {
+        return r
+      }).catch(function (error) {
+        console.log(error);
+      })
   }
 }

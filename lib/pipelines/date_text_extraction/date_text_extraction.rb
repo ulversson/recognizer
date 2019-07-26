@@ -29,4 +29,4 @@ File.readlines(input_file, encoding: 'UTF-8').each do |line|
   date_extractor = DateExtractor.new(line)
   matched_lines_with_dates << date_extractor.extract! if date_extractor.has_date?
 end  
-pp matched_lines_with_dates
+pp matched_lines_with_dates.join(",")
