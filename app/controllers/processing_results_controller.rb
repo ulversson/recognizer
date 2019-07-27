@@ -7,14 +7,7 @@ class ProcessingResultsController < ApplicationController
       id: @uploaded_item.id,
       dates: @uploaded_item.processing_result_dates.map(&:discovered_date).uniq,
       files: (@uploaded_item.processing_result_files.uniq.map do |f| 
-        Hash[
-          src: Rails.application.routes.url_helpers.rails_blob_path(f.file, only_path: true, disposition: :inline),
-          filename: f.file.filename.to_s,
-          h: 800,
-          w: 600,
-          id: f.id,
-          content_type: f.file.content_type
-        ]
+        ProcessingResultFileSerializer.new(f).serializable_hash[:data][:attributes]
       end)
     }
   end
