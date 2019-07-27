@@ -6,7 +6,7 @@ class ProcessingResultFileSerializer
   attribute :content_type do |object|
     object.file.content_type
   end  
-
+  
   attribute :src do |object|
     Rails.application
           .routes

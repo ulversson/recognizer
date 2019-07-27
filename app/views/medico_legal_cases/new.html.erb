@@ -43,8 +43,8 @@ $(function(){
     keepOrder: true,
     afterSelect: function(value){
       $.get(`/processing_results/${value}`).done(function(jsonResponse){
-        jsonResponse.files.forEach((file) => {
-          let index = jsonResponse.files.indexOf(file)
+        jsonResponse.attributes.files.forEach((file) => {
+          let index = jsonResponse.attributes.files.indexOf(file)
           if (file.content_type.toString().match("image")) {
            window.items.push(file) 
            let link = '<img width="160" height="160" data-id="'+ jsonResponse.id + '" src="'+ file.src + '" onclick="openGallery(0)"/>'
@@ -56,7 +56,7 @@ $(function(){
           }
         });
         let dateHtml = $("div#dates").html();
-        jsonResponse.dates.sort(function(a, b) {
+        jsonResponse.attributes.dates.sort(function(a, b) {
           var dateA = new Date(a), dateB = new Date(b);
           return dateA - dateB;
         }).forEach((date) => {

@@ -53,7 +53,7 @@ export default {
       dropdownOptions: [],
       pipelineToSelect: 0,
       fields: [
-        'id', 'filename', 
+        'id', 'file_link', 
         { 
           "name": "status",
           "callback": "statusBadge",
