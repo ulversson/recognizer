@@ -25,7 +25,9 @@ end
 group :development do
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"
-
+  gem "capistrano"
+  gem "capistrano-rails"
+  gem "capistrano-rvm"
 end
 
 group :test do

@@ -2,7 +2,7 @@ class AddFixOrientationPipelineItem < SeedMigration::Migration
   def up
     arguments = {
       name: "Rotate image to portrait",
-      path: "lib/pipelines/fix_orientation/fix_orientation",
+      path: "lib/pipelines/fix_orientation/fix_orientation.py",
       command: `which python3`.strip,
       arguments: "[input]",
       code: "fix_orientation"
