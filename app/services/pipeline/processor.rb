@@ -32,8 +32,8 @@ module Services
 
       def self.save_dates(uploaded_item, processing_result)
         dates = processing_result[-1].split(",")
-                                     .map {|str_date| Date.parse(str_date)}
-                                     .uniq  
+                                     .map {|str_date| Date.parse(str_date) rescue nil}
+                                     .uniq.compact  
         dates.each do |dt| 
           ProcessingResultDate.create! uploaded_item_id: uploaded_item.id,
                                         discovered_date: dt

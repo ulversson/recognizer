@@ -1,7 +1,11 @@
 <template>
   <div class="custom-actions">
-    <a class="btn btn-xs btn-warning text-white" style="cursor: pointer" @click="itemAction('edit-item', rowData, rowIndex)"><i class="edit fas fa-eye"></i></a>
-    <a class="btn btn-xs btn-danger text-white" style="cursor: pointer" @click="deleteItem(rowData, rowIndex)"><i class="delete fas fa-ban"></i></a>
+    <a class="btn btn-xs btn-warning text-white" style="cursor: pointer" @click="showItem(rowData, rowIndex)">
+      <i class="edit fas fa-eye"></i>
+    </a>
+    <a class="btn btn-xs btn-danger text-white" style="cursor: pointer" @click="deleteItem(rowData, rowIndex)">
+      <i class="delete fas fa-ban"></i>
+      </a>
   </div>	
 </template>
 
@@ -19,7 +23,10 @@ export default {
     }
   },
   methods: {
-     deleteItem(data, index) {
+    showItem(data, index) {
+      window.location.href = `/medico_legal_cases/${data.id}`
+    },
+    deleteItem(data, index) {
       const component = this
       this.$swal({
         title: 'Are you sure?',

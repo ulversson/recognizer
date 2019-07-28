@@ -1,7 +1,9 @@
 require 'uploaded_items/assigner'
+require 'uploaded_items/date_arranger'
 require 'uploaded_items/without_assigned_case_and_status_query'
 
 class MedicoLegalCasesController < ApplicationController
+  before_action :set_case, only: [:show, :destroy]
 
   include Services::UploadedItems
   include Queries::UploadedItems
@@ -32,12 +34,19 @@ class MedicoLegalCasesController < ApplicationController
     end
   end  
 
+  def show
+    @ordered_items = DateArranger.new(@medico_legal_case.uploaded_items).call.compact
+  end  
+
   def destroy
-    @medico_legal_case = MedicoLegalCase.find(params[:id])
     @medico_legal_case.destroy
   end  
 
   private
+
+  def set_case
+    @medico_legal_case = MedicoLegalCase.find(params[:id])
+  end  
 
   def permitted_params
     params.require(:medico_legal_case).permit(:name)
