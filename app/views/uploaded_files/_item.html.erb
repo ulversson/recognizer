@@ -1,0 +1,38 @@
+<div class="card-header collapsed" data-toggle="collapse" href="#item<%= item.id %>">
+  <a class="card-title">
+    <h5>
+      <a class='btn btn-xs btn-success text-white'>
+        <%= l(item.discovered_date, format: "%d/%m/%Y") %>
+      </a>
+      &nbsp;
+      <a class='btn btn-xs btn-secondary text-white'>
+        <%= item.uploaded_item.file.filename %>
+      </a>
+    </h5>
+  </a>
+</div>
+<div id="item<%= item.id %>" class="card-body collapse" data-parent="#item<%= item.id %>" >
+  <div class="card" style="max-width: 20rem;">
+    <div class="card-body">
+      <div class='images'>
+        <%= image_tag uploaded_image_path(item.uploaded_item.file), 
+            onclick: "initGalleryWithOpen(window.imgs, 0)", 
+            class: "gallery-img", 
+            width: 200,  
+            height: 200
+          %>
+      </div>
+    </div>
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <%= link_to(text_file(item.uploaded_item.file),  "/uploaded_items/#{item.uploaded_item.id}/text_file") %>
+          </li>
+        <li class="list-group-item">
+          <%- (item.uploaded_item.processing_result_dates - [item]).each do |date_item| %>
+            <a class='btn btn-secondary btn-xs text-white'>
+              <%= l(date_item.discovered_date, format: "%d/%m/%Y") %></a>
+          <% end %>
+        </li>
+      </ul>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container">
+  <div id="accordion" class="accordion">
+    <div class="card mb-0">
+      <%= render "medico_legal_cases/photoswipe" %>
+      <% for item in uploaded_files do %>
+        <%= render "uploaded_files/item", item: item %>
+      <% end %>
+    </div>
+</div>
+<script type='text/javascript'>
+  $(function(){
+    window.imgs = []
+    Array.from($('img.gallery-img')).forEach(image => {
+      imgs.push({
+        src: image.src,
+        h: 1024,
+        w: 768
+      })
+    });
+    initGallery(imgs, 0)
+  })
+  function openGallery(index) {
+    if (window.gallery !== undefined) {
+      window.gallery.init()
+    } else {
+      window.gallery.options["index"] = index
+      window.gallery.init()
+    }
+  }
+  function initGalleryWithOpen(items, index) {
+    initGallery(items, index)
+    openGallery(index)
+  }
+  function initGallery(items, index ) {
+    window.pswpElement = document.querySelectorAll('.pswp')[0];
+    window.gallery = new PhotoSwipe(window.pswpElement, PhotoSwipeUI_Default, items, options);
+    var options = { index: 0}
+    //openGallery(index)
+  }
+</script>

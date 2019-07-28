@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-xl-8 col-lg-7">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">
+          <%= @medico_legal_case.name %>'s case files
+        </h6>        
+      </div>
+      <div class="card-body">
+        <%= render "uploaded_files/uploaded_files", uploaded_files: @ordered_items %>
+      </div> 
+    </div>
+</div>
+    <p class='pull-left'>
+      <%= link_to "/#/cases", class: "btn btn-secondary" do %>
+        <i class='fas fa-arrow-left'></i>&nbsp;Go Back to the cases listing
+      <% end %>
+    </p>
