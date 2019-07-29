@@ -17,7 +17,8 @@ gem "sidekiq"
 gem "image_processing", "~> 1.2"
 gem "font_awesome5_rails"
 gem "select2-rails"
-
+gem "ed25519"
+gem "bcrypt_pbkdf"
 group :development, :test do
   gem "pry", platforms: [:mri, :mingw, :x64_mingw]
 end

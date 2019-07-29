@@ -29,7 +29,6 @@ module Services
          end  
          return output_dir
       end   
-
       def self.save_result_files(uploaded_item, output_dir)
         files = Dir.glob("#{output_dir}/*.png").map(&File.method(:realpath))
         files.each do |file|
