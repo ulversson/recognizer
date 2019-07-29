@@ -34,6 +34,9 @@
     "vuedraggable": "^2.23.0",
     "vuetable-2": "^1.7.5"
   },
+  "scripts": {
+    "postinstall": "npm rebuild node-sass"
+  },
   "version": "0.1.0",
   "devDependencies": {
     "css-loader": "^1.0.1",
