@@ -6,10 +6,12 @@ set :deploy_to, "/home/deployer/apps/recognizer"
 set :ssh_options, keys: ["config/deploy_id_rsa"] if File.exist?("config/deploy_id_rsa")
 
 #set :linked_files, %w{config/database.yml}
-set :rvm_ruby_version, "2.6.3"      # Defaults to: "default"
-if fetch(:stage) == :digital
-  set :rvm_custom_path, "/usr/share/rvm"
-end  
+set :rbenv_type, :user # or :system, depends on your rbenv setup
+set :rbenv_ruby, '2.6.1'
+
+# in case you want to set ruby version from the file:
+# set :rbenv_ruby, File.read('.ruby-version').strip
+
 #set :rvm_custom_path, "/Users/ulversson/.rvm"  # only needed if not detected# set :format, :pretty
 
 set :linked_files, %w{config/database.yml config/secrets.yml}
