@@ -1,7 +1,6 @@
 require 'uploaded_items/text_file_finder'
 class UploadedItemsController < ApplicationController
   before_action :set_item, only: [:show, :update, :destroy, :text_file]
-  include Services
 
   def index
     @uploaded_items = UploadedItemSerializer.new(UploadedItem.all.order("id desc"), {is_collection: true})

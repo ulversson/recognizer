@@ -1,5 +1,4 @@
 require 'application_base_service'
-module Services
   module UploadedItems 
     class Assigner < ApplicationBaseService
       
@@ -22,4 +21,3 @@ module Services
 
     end  
   end
-end    

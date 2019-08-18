@@ -1,0 +1,2 @@
+class PipelineNotificationMailer < ApplicationMailer
+end

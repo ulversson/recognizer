@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_23_163839) do
+ActiveRecord::Schema.define(version: 2019_08_17_091434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,17 +73,20 @@ ActiveRecord::Schema.define(version: 2019_07_23_163839) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "code"
+    t.boolean "multipage", default: false
   end
 
   create_table "processing_result_dates", force: :cascade do |t|
     t.datetime "discovered_date"
     t.integer "uploaded_item_id"
+    t.integer "processing_result_file_id"
   end
 
   create_table "processing_result_files", force: :cascade do |t|
     t.integer "uploaded_item_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "medico_legal_case_id"
   end
 
   create_table "seed_migration_data_migrations", id: :serial, force: :cascade do |t|

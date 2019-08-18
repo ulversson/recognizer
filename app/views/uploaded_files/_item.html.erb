@@ -2,7 +2,7 @@
   <a class="card-title">
     <h5>
       <a class='btn btn-xs btn-success text-white'>
-        <%= l(item.discovered_date, format: "%d/%m/%Y") %>
+        <%= l(item.discovered_date, format: "%d/%m/%Y") rescue "Blank"%>
       </a>
       &nbsp;
       <a class='btn btn-xs btn-secondary text-white'>
@@ -24,13 +24,13 @@
       </div>
     </div>
       <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <%= link_to(text_file(item.uploaded_item.file),  "/uploaded_items/#{item.uploaded_item.id}/text_file") %>
-          </li>
+        <li class="list-group-item">
+          <%= link_to(text_file(item.uploaded_item.file),  "/uploaded_items/#{item.uploaded_item.id}/text_file") %>
+        </li>
         <li class="list-group-item">
           <%- (item.uploaded_item.processing_result_dates - [item]).each do |date_item| %>
             <a class='btn btn-secondary btn-xs text-white'>
-              <%= l(date_item.discovered_date, format: "%d/%m/%Y") %></a>
+              <%= l(date_item.discovered_date, format: "%d/%m/%Y") rescue nil %></a>
           <% end %>
         </li>
       </ul>

@@ -5,6 +5,8 @@ class UploadedItem < ApplicationRecord
   belongs_to :medico_legal_case, optional: true
   has_many :processing_result_files, dependent: :destroy
   has_many :processing_result_dates, dependent: :destroy
+  has_many :processing_pipeline_items, through: :processing_pipeline 
+           
   
   def file_on_disk
     ActiveStorage::Blob.service.send(:path_for, file.key)
@@ -22,6 +24,14 @@ class UploadedItem < ApplicationRecord
     File.open(downloaded_file_path, 'wb') do |f|
       f.write(file.blob.download)
     end
+  end  
+
+  def processed!
+    update_column :status, "processed" 
+  end  
+  
+  def text_file
+    processing_result_files.select {|i| i.file.content_type =~ /text/ }.first
   end  
 
   private

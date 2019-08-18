@@ -1,0 +1,69 @@
+<div class="card-header collapsed" data-toggle="collapse" href="#file_item<%= file_item.id %>">
+  <a class="card-title">
+    <h5>
+      <a class='btn btn-xs btn-success text-white'>
+        <%= l(file_item.first_date.discovered_date, format: "%d/%m/%Y") rescue "Blank" %>
+      </a>
+      &nbsp;
+      <a class='btn btn-xs btn-secondary text-white'>
+        <%= file_item.file.filename %>
+      </a>
+    </h5>
+  </a>
+</div>
+<div id="file_item<%= file_item.id %>" class="card-body collapse" data-parent="#file_item<%= file_item.id %>" >
+  <div class="card" style="max-width: 20rem;">
+    <div class="card-body">
+      <div class='images'>
+        <%= image_tag uploaded_image_path_from_text(file_item), 
+            onclick: "initGalleryWithOpen(window.imgs, 0)", 
+            class: "gallery-img", 
+            width: 200,  
+            height: 200
+          %>
+      </div>
+    </div>
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <%= link_to(file_item.file.filename.to_s,  "/uploaded_file_items/#{file_item.uploaded_item.id}/text_file") %>
+          </li>
+        <li class="list-group-file-item">
+          <%- (file_item.all_but_first_date).each do |date_item| %>
+            <a class='btn btn-secondary btn-xs text-white'>
+              <%= l(date_item, format: "%d/%m/%Y") rescue nil %></a>
+          <% end %>
+        </li>
+      </ul>
+  </div>
+</div>
+<script type='text/javascript'>
+  $(function(){
+    window.imgs = []
+    Array.from($('img.gallery-img')).forEach(image => {
+      imgs.push({
+        src: image.src,
+        h: 1024,
+        w: 768
+      })
+    });
+    initGallery(imgs, 0)
+  })
+  function openGallery(index) {
+    if (window.gallery !== undefined) {
+      window.gallery.init()
+    } else {
+      window.gallery.options["index"] = index
+      window.gallery.init()
+    }
+  }
+  function initGalleryWithOpen(items, index) {
+    initGallery(items, index)
+    openGallery(index)
+  }
+  function initGallery(items, index ) {
+    window.pswpElement = document.querySelectorAll('.pswp')[0];
+    window.gallery = new PhotoSwipe(window.pswpElement, PhotoSwipeUI_Default, items, options);
+    var options = { index: 0}
+    //openGallery(index)
+  }
+</script>

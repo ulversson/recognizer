@@ -7,12 +7,17 @@
         </h6>        
       </div>
       <div class="card-body">
-        <%= render "uploaded_files/uploaded_files", uploaded_files: @ordered_items %>
-      </div> 
+        <%= render "medico_legal_cases/photoswipe" %>
+        <% @ordered_items.each do |file_item| %>
+          <%= render "processing_result_files/file_item", file_item: file_item %>
+        <% end %>
+        <%#= render "uploaded_files/uploaded_files", uploaded_files: @ordered_items %>
+      </div>
     </div>
+  </div>
 </div>
-    <p class='pull-left'>
-      <%= link_to "/#/cases", class: "btn btn-secondary" do %>
-        <i class='fas fa-arrow-left'></i>&nbsp;Go Back to the cases listing
-      <% end %>
-    </p>
+<p class='pull-left'>
+  <%= link_to "/#/cases", class: "btn btn-secondary" do %>
+    <i class='fas fa-arrow-left'></i>&nbsp;Go Back to the cases listing
+  <% end %>
+</p>

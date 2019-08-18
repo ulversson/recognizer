@@ -1,6 +1,6 @@
 require 'application_base_service'
 module UploadedItems 
-  class TextFileFinder < ApplicationBaseService
+  class ImageFileFinder < ApplicationBaseService
 
     attr_reader :uploaded_item, :file_name
 
@@ -13,8 +13,8 @@ module UploadedItems
       items = uploaded_item.processing_result_files.map do |file| 
         [file.id, file.file.content_type, file.file.filename.to_s]
       end  
-      items.select {|i| i[1] == "text/plain" && i[2] == file_name}.first.first rescue nil
-    end  
-
+      items.select {|i| i[1] =~/image/  && i[2].include?(file_name.to_s.gsub(".txt",""))}.flatten.first    
+    end
+      
   end
 end

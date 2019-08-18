@@ -1,53 +1,14 @@
-require_relative 'regular_expressions'
-input_file = ARGV[0]
+require_relative "./date_extractor.rb"
 
-class DateExtractor
-
-  attr_reader :line_of_text
-
-  def initialize(line_of_text)
-    @line_of_text = line_of_text
-  end  
-
-  def extract!
-    require 'pry'
-    if has_date? 
-      RegularExpressions.universal_date.match(line_of_text).to_s
-    elsif has_short_date?
-      RegularExpressions.short_date.match(line_of_text).to_s
-    elsif has_month_short_date?
-      RegularExpressions.month_short.match(self.line_of_text)
-    elsif has_month_long_date?  
-      RegularExpressions.month_long.match(self.line_of_text)
-    else  
-      ""
-    end    
-  end  
-
-  def found_date?
-    has_date? || has_short_date? || has_month_long_date? || has_month_short_date?
-  end  
-
-  def has_date?
-    RegularExpressions.universal_date.match(self.line_of_text)
-  end  
-
-  def has_short_date?
-    RegularExpressions.short_date.match(self.line_of_text)
-  end
-  
-  def has_month_short_date?
-    RegularExpressions.month_short.match(self.line_of_text)
-  end 
-  
-  def has_month_long_date?
-    RegularExpressions.month_long.match(self.line_of_text)
-  end  
-end    
-
+if File.directory?(ARGV[0]) || File.extname(ARGV[0]) == ""
+  input_file = ARGV[0] 
+else
+  input_file = ARGV[0]+".txt" 
+end
 
 
 def extract_dates(input_file)
+  return if input_file.nil?
   matched_lines_with_dates = []
   File.readlines(input_file, encoding: 'UTF-8').each do |line|
     line = line.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')

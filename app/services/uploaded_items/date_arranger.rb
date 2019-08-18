@@ -1,6 +1,5 @@
 require 'application_base_service'
-module Services
-  module UploadedItems 
+module UploadedItems 
     class DateArranger < ApplicationBaseService
 
       attr_reader :uploaded_items
@@ -15,9 +14,9 @@ module Services
                        .order('discovered_date desc')
                        .first 
           end
-          .sort_by {|i| i.discovered_date rescue nil }).compact
+          .sort_by {|i| i.discovered_date rescue nil })
+          .compact
       end  
 
     end
-  end
 end

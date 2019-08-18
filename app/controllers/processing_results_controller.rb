@@ -1,9 +1,9 @@
 class ProcessingResultsController < ApplicationController
 
   def show
-    @uploaded_item = UploadedItem.find(params[:id])
-    render json: UploadedItemSerializer.new(@uploaded_item)
-                                       .serializable_hash[:data]
+    @uploaded_item = ProcessingResultFile.find(params[:id])
+    render json: ProcessingResultFileSerializer.new(@uploaded_item)
+                                              .serializable_hash[:data]
 
   end
     

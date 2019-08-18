@@ -19,12 +19,13 @@ if os.path.isfile(input_item):
   cv2.imwrite(input_item, imgMorph)
   print(input_item)
 else:
-  for root, dirs, files in os.walk(os.path.abspath("./out")):
+  for root, dirs, files in os.walk(os.path.abspath(input_item)):
     for file in files:
-        print(file)
         file_path = os.path.join(root, file)
-        imgMorph  = binarize(file_path)
-        cv2.imwrite(file_path, imgMorph)
+        fileName,fileExtension = os.path.splitext(file)
+        if (fileExtension.endswith(".png") or fileExtension.endswith(".jpg")):
+          imgMorph  = binarize(file_path)
+          cv2.imwrite(file_path, imgMorph)
     else:
       continue
 

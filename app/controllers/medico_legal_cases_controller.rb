@@ -1,12 +1,12 @@
 require 'uploaded_items/assigner'
 require 'uploaded_items/date_arranger'
-require 'uploaded_items/without_assigned_case_and_status_query'
+require 'processing_result_files/without_case_result_files_query'
 
 class MedicoLegalCasesController < ApplicationController
   before_action :set_case, only: [:show, :destroy]
 
-  include Services::UploadedItems
-  include Queries::UploadedItems
+  include UploadedItems
+  include ProcessingResultFiles
 
   def index
     @medico_legal_cases = MedicoLegalCase.order('id DESC')
@@ -20,22 +20,24 @@ class MedicoLegalCasesController < ApplicationController
   def create
     @medico_legal_case = MedicoLegalCase.new(permitted_params)
     if @medico_legal_case.save
-      Assigner.new(params[:uploaded_files], @medico_legal_case.id).call
-    end
+      ProcessingResultFilesAssigner.new(params[:uploaded_files], @medico_legal_case.id).call
+    end  
     respond_to {|format| format.js }
   end  
   
   def new
     respond_to do |format|
       format.html do 
-        @processed_files = WithoutAssignedCaseAndStatusQuery.call
-        @processed_files = @processed_files.map {|f| [f.file.filename.to_s, f.id]} 
+        @processed_files = WithoutCaseResultFilesQuery.call
+        @processed_files = @processed_files.map {|f| [f.name, f.id]} 
       end
     end
   end  
 
   def show
-    @ordered_items = DateArranger.new(@medico_legal_case.uploaded_items).call.compact
+    @ordered_items = @medico_legal_case.processing_result_files
+                                        .eager_load(:processing_result_dates)
+                                        .order("processing_result_dates.discovered_date ASC")
   end  
 
   def destroy

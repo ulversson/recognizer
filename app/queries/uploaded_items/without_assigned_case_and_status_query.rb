@@ -1,16 +1,12 @@
-module Queries
-  module UploadedItems
+module UploadedItems
+  class WithoutAssignedCaseAndStatusQuery
 
-    class WithoutAssignedCaseAndStatusQuery
+    DEFAULT_STATUS = :processed
 
-      DEFAULT_STATUS = :processed
-
-      def self.call(relation = UploadedItem.all, status: DEFAULT_STATUS)
-        relation
-          .where(status: DEFAULT_STATUS, medico_legal_case_id: nil)
-      end
-
-    end  
+    def self.call(relation = UploadedItem.all, status: DEFAULT_STATUS)
+      relation
+        .where(status: DEFAULT_STATUS, medico_legal_case_id: nil)
+    end
 
   end  
 end  
