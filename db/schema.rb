@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_17_091434) do
+ActiveRecord::Schema.define(version: 2019_08_18_075454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2019_08_17_091434) do
     t.datetime "discovered_date"
     t.integer "uploaded_item_id"
     t.integer "processing_result_file_id"
+    t.boolean "date_skipped", default: false
   end
 
   create_table "processing_result_files", force: :cascade do |t|

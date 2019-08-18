@@ -1,6 +1,6 @@
 require 'uploaded_items/text_file_finder'
 class UploadedItemsController < ApplicationController
-  before_action :set_item, only: [:show, :update, :destroy, :text_file]
+  before_action :set_item, only: [:show, :update, :destroy]
 
   def index
     @uploaded_items = UploadedItemSerializer.new(UploadedItem.all.order("id desc"), {is_collection: true})
@@ -13,10 +13,9 @@ class UploadedItemsController < ApplicationController
   end
 
   def text_file
-    txt_id = UploadedItems::TextFileFinder.new(@uploaded_item, @uploaded_item.file.filename.to_s).call
-    txt_file = ProcessingResultFile.find(txt_id)
+    txt_file = ProcessingResultFile.find(params[:id])
     send_file txt_file.file_on_disk, 
-      filename: txt_file.file.filename.to_s+'.txt', 
+      filename: txt_file.file.filename.to_s,
       disposition: :attachment
   end  
 

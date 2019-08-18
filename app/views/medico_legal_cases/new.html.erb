@@ -44,14 +44,16 @@ $(function(){
     afterSelect: function(value){
       $.get(`/processing_results/${value}`).done(function(jsonResponse){
         console.log(jsonResponse)
-          if (jsonResponse.attributes.content_type.toString().match("image")) {
-           let link = '<img width="160" height="160" data-id="'+ jsonResponse.id + '" src="'+ jsonResponse.attributes.src + '" onclick="initGalleryWithOpen(window.items, 0)"/>'
-           $("div#slides").append(link)
-          }
-          if (jsonResponse.attributes.content_type.toString().match("text")) {
-           let link = '<a href="'+ jsonResponse.attributes.src +'.txt " data-id="'+ jsonResponse.id + '" src="'+ jsonResponse.attributes.src  + '.txt">'+ jsonResponse.attributes.filename.replace("png", "txt") + '</a>'
-           $("div#slides").append(link)
-          }
+        let index = $("div#slides img").length
+        let link = '<img width="160" height="160" data-id="'+ jsonResponse.id + '" src="'+ jsonResponse.attributes.src + '" onclick="initGalleryWithOpen(window.items, ' + index +  ')"/>'
+        $("div#slides").append(link)
+        window.items.push({
+          w: jsonResponse.attributes.w,
+          h: jsonResponse.attributes.h,
+          src: jsonResponse.attributes.src
+        })
+        let linkTxt = '<a href="'+ jsonResponse.attributes.text_file +'" data-id="'+ jsonResponse.id + '" src="'+ jsonResponse.attributes.text_file + '">'+ jsonResponse.attributes.filename.replace("png", "txt") + '</a>'
+        $("div#slides").append(linkTxt)
         let dateHtml = $("div#dates").html();
         jsonResponse.attributes.dates.sort(function(a, b) {
           var dateA = new Date(a), dateB = new Date(b);
@@ -103,8 +105,8 @@ function openGallery(index) {
 
 function initGallery(items, index ) {
   window.pswpElement = document.querySelectorAll('.pswp')[0];
+  var options = { index: index}
   window.gallery = new PhotoSwipe(window.pswpElement, PhotoSwipeUI_Default, items, options);
-  var options = { index: 0}
   //openGallery(index)
 }
 

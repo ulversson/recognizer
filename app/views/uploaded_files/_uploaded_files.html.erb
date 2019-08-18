@@ -34,8 +34,8 @@
   }
   function initGallery(items, index ) {
     window.pswpElement = document.querySelectorAll('.pswp')[0];
+    var options = { index: index}
     window.gallery = new PhotoSwipe(window.pswpElement, PhotoSwipeUI_Default, items, options);
-    var options = { index: 0}
     //openGallery(index)
   }
 </script>

@@ -16,7 +16,7 @@
     <div class="card-body">
       <div class='images'>
         <%= image_tag uploaded_image_path_from_text(file_item), 
-            onclick: "initGalleryWithOpen(window.imgs, 0)", 
+            onclick: "initGalleryWithOpen(window.imgs, #{@ordered_items.index(file_item)})", 
             class: "gallery-img", 
             width: 200,  
             height: 200
@@ -25,9 +25,9 @@
     </div>
       <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <%= link_to(file_item.file.filename.to_s,  "/uploaded_file_items/#{file_item.uploaded_item.id}/text_file") %>
+            <%= link_to(file_item.file.filename.to_s,  "/uploaded_items/#{file_item.id}/text_file") %>
           </li>
-        <li class="list-group-file-item">
+        <li class="list-group-item">
           <%- (file_item.all_but_first_date).each do |date_item| %>
             <a class='btn btn-secondary btn-xs text-white'>
               <%= l(date_item, format: "%d/%m/%Y") rescue nil %></a>
@@ -62,8 +62,8 @@
   }
   function initGallery(items, index ) {
     window.pswpElement = document.querySelectorAll('.pswp')[0];
+    var options = { index: index}
     window.gallery = new PhotoSwipe(window.pswpElement, PhotoSwipeUI_Default, items, options);
-    var options = { index: 0}
     //openGallery(index)
   }
 </script>

@@ -16,12 +16,19 @@ class ProcessingResultFileSerializer
   end  
 
   attribute :src do |object|
-    image_file = ProcessingResult.where(id: object.image_file_id).first
+    image_file = ProcessingResultFile.where(id: object.image_file_id).first
     return "" if image_file.blank?
     Rails.application
           .routes
           .url_helpers
           .rails_blob_path(image_file.file, only_path: true, disposition: :inline)
+  end  
+
+  attribute :text_file do |object|
+    Rails.application
+    .routes
+    .url_helpers
+    .rails_blob_path(object.file, only_path: true, disposition: :inline)
   end  
 
   attribute :file_link do |object|
